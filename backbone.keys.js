@@ -1,3 +1,9 @@
+/*
+Backbone.keys.js 0.2.0
+
+(c) 2012 Raymond Julin, Keyteq AS
+Backbone.keys may be freely distributed under the MIT license.
+*/
 (function(factory) {
   if (typeof define === "function" && define.amd) {
     return define(["underscore", "backbone", "jquery"], factory);

@@ -1,7 +1,9 @@
-#     Backbone.keys.js 0.1
+###
+Backbone.keys.js 0.2.0
 
-#     (c) 2012 Raymond Julin, Keyteq AS
-#     Backbone.keys may be freely distributed under the MIT license.
+(c) 2012 Raymond Julin, Keyteq AS
+Backbone.keys may be freely distributed under the MIT license.
+###
 ((factory) ->
 
   if typeof define is "function" and define.amd

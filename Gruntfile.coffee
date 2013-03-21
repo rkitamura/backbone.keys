@@ -9,8 +9,15 @@ module.exports = (grunt) ->
 
     watch:
       scripts:
-        files: ['backbone.keys.js']
-        tasks: 'jshint'
+        files: ['backbone.keys.coffee']
+        tasks: ['coffee', 'jshint']
+
+    coffee:
+      options:
+        bare: true
+      compile:
+        files:
+          'backbone.keys.js': 'backbone.keys.coffee'
 
     uglify:
       options:
@@ -41,9 +48,10 @@ module.exports = (grunt) ->
           $: true
           document: true
 
+  grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-jshint'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
 
   # Tasks
-  grunt.registerTask 'default', ['jshint', 'uglify']
+  grunt.registerTask 'default', ['coffee', 'jshint', 'uglify']

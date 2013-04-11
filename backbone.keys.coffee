@@ -96,15 +96,17 @@ Backbone.keys may be freely distributed under the MIT license.
 
     # Override delegate events
     delegateEvents: ->
-      oldDelegateEvents.apply @, arguments
+      oldDelegateEvents.apply @, Array::slice.apply(arguments)
       @delegateKeys()
+      @
 
     # Clears all callbacks previously bound to the view with `delegateEvents`.
     # You usually don't need to use this, but may wish to if you have multiple
     # Backbone views attached to the same DOM element.
     undelegateEvents: ->
       @undelegateKeys()
-      oldUndelegateEvents.apply @, arguments
+      oldUndelegateEvents.apply @, Array::slice.apply(arguments)
+      @
 
     # Actual delegate keys
     delegateKeys: (keys) ->
@@ -115,12 +117,14 @@ Backbone.keys may be freely distributed under the MIT license.
       if keys
         _.each keys, ((method, key) ->
           @keyOn key, method
-        ), this
+        ), @
+      @
 
     # Undelegate keys
     undelegateKeys: ->
       @_keyEventBindings = {}
       @bindTo.off @bindKeysOn + ".delegateKeys" + @cid  if @bindTo
+      @
 
     # Utility to get the name of a key
     # based on its keyCode
@@ -146,6 +150,7 @@ Backbone.keys may be freely distributed under the MIT license.
             e[modifier + "Key"] is true
           )
         listener.method e, listener.key  if trigger
+      @
 
     # Doing the real work of binding key events
     keyOn: (key, method) ->
@@ -168,7 +173,7 @@ Backbone.keys may be freely distributed under the MIT license.
         modifiers: (components or false)
         method: _.bind(method, this)
 
-      this
+      @
 
     keyOff: (key, method) ->
       method = (method or false)
@@ -183,6 +188,6 @@ Backbone.keys may be freely distributed under the MIT license.
       @_keyEventBindings[keyCode] = _.filter(@_keyEventBindings[keyCode], (data, index) ->
         data.method is method
       )
-      this
+      @
   )
   Backbone

@@ -69,12 +69,14 @@ Backbone.keys may be freely distributed under the MIT license.
     bindTo: null,
     _keyEventBindings: null,
     delegateEvents: function() {
-      oldDelegateEvents.apply(this, arguments);
-      return this.delegateKeys();
+      oldDelegateEvents.apply(this, Array.prototype.slice.apply(arguments));
+      this.delegateKeys();
+      return this;
     },
     undelegateEvents: function() {
       this.undelegateKeys();
-      return oldUndelegateEvents.apply(this, arguments);
+      oldUndelegateEvents.apply(this, Array.prototype.slice.apply(arguments));
+      return this;
     },
     delegateKeys: function(keys) {
       this.undelegateKeys();
@@ -84,16 +86,18 @@ Backbone.keys may be freely distributed under the MIT license.
       this.bindTo.on(this.bindKeysOn + ".delegateKeys" + this.cid, _.bind(this.triggerKey, this));
       keys = keys || this.keys;
       if (keys) {
-        return _.each(keys, (function(method, key) {
+        _.each(keys, (function(method, key) {
           return this.keyOn(key, method);
         }), this);
       }
+      return this;
     },
     undelegateKeys: function() {
       this._keyEventBindings = {};
       if (this.bindTo) {
-        return this.bindTo.off(this.bindKeysOn + ".delegateKeys" + this.cid);
+        this.bindTo.off(this.bindKeysOn + ".delegateKeys" + this.cid);
       }
+      return this;
     },
     keyName: function(keyCode) {
       var keyName;
@@ -119,7 +123,7 @@ Backbone.keys may be freely distributed under the MIT license.
           key = e;
         }
       }
-      return _(this._keyEventBindings[key]).each(function(listener) {
+      _(this._keyEventBindings[key]).each(function(listener) {
         var trigger;
 
         trigger = true;
@@ -132,6 +136,7 @@ Backbone.keys may be freely distributed under the MIT license.
           return listener.method(e, listener.key);
         }
       });
+      return this;
     },
     keyOn: function(key, method) {
       var components, keyCode, l;
